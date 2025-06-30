@@ -1,8 +1,8 @@
 const mongoose=require("mongoose");
 
-const postModel=new mongoose.Schema({
+const postSchema=new mongoose.Schema({
     user:{
-    type:mongoose.Schema.Type.ObjectId, 
+    type:mongoose.Schema.Types.ObjectId, 
     ref:'Users',
     required:true
     },
@@ -19,3 +19,7 @@ const postModel=new mongoose.Schema({
         minLength:10
     }
 }, {timestamps:true})
+
+const PostModel=mongoose.model('posts', postSchema);
+
+module.exports=PostModel;
