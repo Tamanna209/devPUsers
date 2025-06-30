@@ -8,7 +8,7 @@ const router=express.Router();
 router.post('/post', authUser ,  createPost)
 
 //get  all and my post
-router.get("/posts", getPosts);
+router.get("/posts",  authUser, getPosts);
 router.get("/myPosts", authUser, getMyPost);
 
 //edit

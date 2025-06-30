@@ -1,13 +1,53 @@
 const PostModel = require("../models/post.model")
 
 const getPosts=async(req, res)=>{
-    res.send("all posts fetched")
+    try{
+    const posts=await PostModel.find().populate('user', "name email");
+    if(!posts){
+        return res.status(400).json({
+            succes:false,
+            message:'No post found'
+        })
+    }
+    return res.status(200).json({
+        succes:true,
+        message:'All posts fetched',
+        posts
+    })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            succes:false,
+            message:'Something went wrong'
+        })
+        
+    }
+   
 }
 
 const getMyPost=async(req, res)=>{
-   const {id}=req.user;
+    try{
+    const {id}=req.user;
    const myPosts=await PostModel.findOne({user:id}).populate('user', 'name email');
-   res.send(myPosts);
+    if(!myPosts){
+        return res.status(400).json({
+            succes:false,
+            message:'No post found'
+        })
+    }
+    return res.status(200).json({
+        success:true,
+        message:'All your posts fetched',
+        myPosts
+    })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            succes:false,
+            message:'Somethig went wrong'
+        })
+        
+    }
 }
 
 const createPost=async(req, res)=>{
